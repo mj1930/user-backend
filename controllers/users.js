@@ -1,5 +1,4 @@
 const usersSchema = require('../models/users/users');
-const storeSchema = require('../models/stores/storenames');
 
 const userValidator = require('../validators/users.validators');
 const crypto = require('../utils/crypto/Crypto');
