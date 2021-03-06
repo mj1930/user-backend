@@ -16,7 +16,7 @@ module.exports = app => {
     app.use((req, res, next) => {
         if (
             req.originalUrl.indexOf('/users') > -1 ||
-            req.originalUrl.indexOf('/product') > -1 ||
+            req.originalUrl.indexOf('/products') > -1 ||
             req.originalUrl.indexOf('/verify') > -1
         ) {
             next()

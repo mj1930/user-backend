@@ -53,7 +53,7 @@ module.exports = {
     signup: async (req, res, next) => {
         try {
             let {
-                lname, fname, email, password, gender
+                lname, fname, email, password
             } = await userValidator.signup().validateAsync(req.body);
             let count = await usersSchema.countDocuments({
                 email
@@ -71,15 +71,14 @@ module.exports = {
                 lname,
                 fname,
                 email,
-                password,
-                gender
+                password
             });
             const userData = await data.save();
             const accessToken = await jwtService.generateAccessToken({
                 _id: userData._id,
                 name: userData.fname + userData.lname
             });
-            if (sellerData) {
+            if (userData) {
                 return res.json({
                     code: 200,
                     message: 'Registration Completed!!',
