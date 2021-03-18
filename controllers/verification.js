@@ -1,4 +1,4 @@
-const usersSchema = require('../models/users/users');
+const usersSchema = require('../models/customers/users');
 
 const emailValidator = require('../validators/email.validators');
 

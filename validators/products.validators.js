@@ -1,20 +1,31 @@
 const Joi = require("@hapi/joi");
+const { join } = require("path");
 
-exports.addProduct = () => {
+exports.findProductByCategory = () => {
     return Joi.object().keys({
-        productId: Joi.string().required().trim(),
-        itemName: Joi.string().required().trim(),
-        countryOfOrigin: Joi.string().required().trim(),
-        manufacturer: Joi.string().required().trim(),
-        itemsNum: Joi.number().required().trim(),
-        colorName: Joi.string().required().trim(),
-        includedComponents: Joi.string().required().trim(),
-        exclosureMaterial: Joi.string().required().trim(),
-        itemTypeName: Joi.string().required().trim(),
-        sizeMap: Joi.string().required().trim(),
-        manufacturerContact: Joi.string().required().trim(),
-        productDimensions:Joi.object().required(),
-        unitCount: Joi.number().required().trim(),
-        unitCountType: Joi.number().required().trim()
+        categoryId: Joi.string().required().trim(),
+        skip: Joi.number().required(),
+        limit: Joi.number().required()
     });
+};
+
+exports.findProductByLocation = () => {
+    return Joi.object().keys({
+        city: Joi.string().required().trim(),
+        skip: Joi.number().required(),
+        limit: Joi.number().required()
+    });
+};
+
+exports.listAllProduct = () => {
+    return Joi.object().keys({
+        skip: Joi.number().required(),
+        limit: Joi.number().required()
+    });
+};
+
+exports.findProductById = () => {
+    return Joi.object().keys({
+        productId: Joi.string().required().trim()
+    })
 }

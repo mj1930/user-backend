@@ -1,4 +1,4 @@
-const usersSchema = require('../models/users/users');
+const usersSchema = require('../models/customers/users');
 
 const userValidator = require('../validators/users.validators');
 const crypto = require('../utils/crypto/Crypto');
