@@ -17,13 +17,22 @@ exports.listCart = () => {
 exports.removeFromCart = () => {
     return Joi.object().keys({
         productId: Joi.string().required(),
-        quantity: Joi.number().optional()
+        quantity: Joi.number().optional(),
+        totalAmnt: Joi.string().required().trim()
+    });
+};
+
+exports.updateQuantity = () => {
+    return Joi.object().keys({
+        productId: Joi.string().required(),
+        quantity: Joi.number().optional(),
+        totalAmnt: Joi.string().required().trim()
     });
 };
 
 exports.updateNewProductToCart = () => {
     return Joi.object().keys({
-        products: Joi.object().required(),
+        product: Joi.object().required(),
         totalAmnt: Joi.string().required().trim()
     });
 };

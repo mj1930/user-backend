@@ -6,6 +6,10 @@ const cartSchema = new Schema({
         type: Array,
         default: [
             {
+                productImg: {
+                    type: Array,
+                    default: []
+                },
                 productName: {
                     type: String,
                     default: ""

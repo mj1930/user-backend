@@ -6,10 +6,12 @@ module.exports = {
     
     addToCart: async (req, res, next) => {
         try {
+            let userId = req.decoded._id;
             let { products, totalAmnt } = await cartValidator.addToCart().validateAsync(req.body);
-            let cartData = await cartSchema.save({
+            let cartData = await cartSchema.create({
                 products,
-                totalAmnt
+                totalAmnt,
+                userId
             });
             return res.json({
                 code: 200,
@@ -25,26 +27,47 @@ module.exports = {
     updateNewProductToCart: async (req, res, next) => {
         try {
             let userId = req.decoded._id;
-            let { products, totalAmnt } = await cartValidator.updateNewProductToCart().validateAsync(req.body);
-            if (quantity) {
-                let cartData = await cartSchema.findOneAndUpdate({
-                    _id: userId,
-                    "products.productId": productId
-                }, {
-                    $push: {
-                        "products": products
-                    },
-                    $set: {
-                        totalAmnt
-                    }
-                }, {new: true}).lean();
-                return res.json({
-                    code: 200,
-                    data: cartData,
-                    message: "item updated from cart",
-                    error: null
-                });
-            }
+            let { product, totalAmnt } = await cartValidator.updateNewProductToCart().validateAsync(req.body);
+            let cartData = await cartSchema.findOneAndUpdate({
+                userId
+            }, {
+                $push: {
+                    products: product
+                },
+                $set: {
+                    totalAmnt
+                }
+            }, {new: true}).lean();
+            return res.json({
+                code: 200,
+                data: cartData,
+                message: "item updated from cart",
+                error: null
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    updateQuantity: async (req, res, next) => {
+        try {
+            let userId = req.decoded._id;
+            let { productId, quantity, totalAmnt } = await cartValidator.updateQuantity().validateAsync(req.body);
+            let cartData = await cartSchema.findOneAndUpdate({
+                userId,
+                "products.productId": productId
+            }, {
+                $set: {
+                    "products.$.quantity": quantity,
+                    totalAmnt
+                }
+            }, {new: true}).lean();
+            return res.json({
+                code: 200,
+                data: cartData,
+                message: "item removed from cart",
+                error: null
+            });
         } catch (err) {
             next(err);
         }
@@ -55,7 +78,7 @@ module.exports = {
             let userId = req.decoded._id;
             let { skip, limit } = await cartValidator.listCart().validateAsync(req.body);
             let cartData = await cartSchema.find({
-                _id: userId
+                userId
             })
             .skip(skip)
             .limit(limit)
@@ -74,14 +97,15 @@ module.exports = {
     removeFromCart: async (req, res, next) => {
         try {
             let userId = req.decoded._id;
-            let { productId, quantity } = await cartValidator.removeFromCart().validateAsync(req.body);
+            let { productId, quantity, totalAmnt } = await cartValidator.removeFromCart().validateAsync(req.body);
             if (quantity) {
                 let cartData = await cartSchema.findOneAndUpdate({
-                    _id: userId,
+                    userId,
                     "products.productId": productId
                 }, {
                     $set: {
-                        "products.quantity": quantity
+                        "products.$.quantity": quantity,
+                        totalAmnt
                     }
                 }, {new: true}).lean();
                 return res.json({
@@ -92,11 +116,14 @@ module.exports = {
                 });
             } else {
                 let cartData = await cartSchema.findOneAndUpdate({
-                    _id: userId,
+                    userId,
                     "products.productId": productId
                 }, {
                     $pull: {
-                        "products.productId": productId
+                        "products": { productId }
+                    },
+                    $set: {
+                        totalAmnt
                     }
                 }, {new: true}).lean();
                 return res.json({

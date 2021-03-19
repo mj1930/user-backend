@@ -10,6 +10,10 @@ const orderSchema = new Schema({
         type: Array,
         default: [
             {
+                productImg: {
+                    type: String,
+                    default: ""
+                },
                 productName: {
                     type: String,
                     default: ""
