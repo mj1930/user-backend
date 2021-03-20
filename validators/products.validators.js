@@ -1,5 +1,4 @@
 const Joi = require("@hapi/joi");
-const { join } = require("path");
 
 exports.findProductByCategory = () => {
     return Joi.object().keys({
@@ -20,7 +19,8 @@ exports.findProductByLocation = () => {
 exports.listAllProduct = () => {
     return Joi.object().keys({
         skip: Joi.number().required(),
-        limit: Joi.number().required()
+        limit: Joi.number().required(),
+        status: Joi.boolean().required()
     });
 };
 

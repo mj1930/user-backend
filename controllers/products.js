@@ -26,7 +26,7 @@ module.exports = {
 
     findProductByCategory: async (req, res, next) => {
         try {
-            let { categoryId, skip, limit } = await productValidator.findProductByCategory().validateAsync(req.query);
+            let { categoryId, skip, limit } = await productValidator.findProductByCategory().validateAsync(req.body);
             let allProducts = await productSchema.find({
                 $and: [
                     {
