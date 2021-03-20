@@ -95,5 +95,34 @@ module.exports = {
         } catch (err) {
             next(err);
         }
+    },
+
+    searchFromProducts: async (req, res, next) => {
+        try {
+            let { term } = await productValidator.searchProduct().validateAsync(req.query);
+            let searchedProducts = await productSchema.find({
+                $or: [
+                    {itemName: { $regex: new RegExp(term, 'i') }},
+                    { barcode:  { $regex: new RegExp(term, 'i') }}
+                ]
+            }).lean();
+            if (searchedProducts && searchedProducts.length > 0) {
+                return res.json({
+                    code: 200,
+                    data: searchedProducts,
+                    message: "all product fetched successfully!!",
+                    error: null
+                });
+            } else {
+                return res.json({
+                    code: 400,
+                    data: {},
+                    message: "No products found !!",
+                    error: null
+                });
+            }
+        } catch (err) {
+            next(err);
+        }
     }
 }
