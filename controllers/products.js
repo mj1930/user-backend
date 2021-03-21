@@ -124,5 +124,58 @@ module.exports = {
         } catch (err) {
             next(err);
         }
+    },
+
+    filterProductsByPrice: async (req, res, next) => {
+        try {
+            let { skip, limit, lowerPrice, higherPrice } = await productValidator.filterProductsByPrice().validateAsync(req.body);
+            let productsData = await productSchema.find({
+                $and : [
+                    { isApproved: true },
+                    {
+                        mrp: {
+                        $gte: lowerPrice,
+                        $lte: higherPrice
+                        }
+                    }
+                ]
+            })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+            return res.json({
+                code: 200,
+                data: productsData,
+                message: "filtered by price",
+                error: null
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    filterProductsByColors : async (req, res, next) => {
+        try {
+            let { skip, limit, color } = await productValidator.filterProductsByColor().validateAsync(req.body);
+            let productsData = await productSchema.find({
+                $and : [
+                    { isApproved: true },
+                    {
+                        color: new Regex(color, 'i')
+                    }
+                ]
+            })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+            return res.json({
+                code: 200,
+                data: productsData,
+                message: "filtered by color",
+                error: null
+            });
+        } catch (err) {
+            next(err);
+        }
     }
 }

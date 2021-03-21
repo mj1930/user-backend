@@ -35,3 +35,20 @@ exports.searchProduct = () => {
         term: Joi.string().required().trim()
     });
 };
+
+exports.filterProductsByPrice = () => {
+    return Joi.object().keys({
+        skip: Joi.number().required(),
+        limit: Joi.number().required(),
+        lowerPrice: Joi.number().required(),
+        higherPrice: Joi.number().required()
+    })
+};
+
+exports.filterProductsByColor = () => {
+    return Joi.object().keys({
+        skip: Joi.number().required(),
+        limit: Joi.number().required(),
+        color: Joi.string().required().trim()
+    })
+}
