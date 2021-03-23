@@ -51,4 +51,13 @@ exports.filterProductsByColor = () => {
         limit: Joi.number().required(),
         color: Joi.string().required().trim()
     })
-}
+};
+
+exports.sortProducts = () => {
+    return Joi.object().keys({
+        key: Joi.string().required().trim(),
+        sortBy: Joi.number().required(),
+        skip: Joi.number().required(),
+        limit: Joi.number().required()
+    });
+};

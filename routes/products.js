@@ -8,5 +8,6 @@ router.post('/get-products-by-price', productCtrl.filterProductsByPrice);
 router.post('/get-products-by-color', productCtrl.filterProductsByColors);
 router.get('/get-product-by-id', productCtrl.findProductById);
 router.get('/search-products', productCtrl.searchFromProducts);
+router.post('/sort-products', productCtrl.sortProduct);
 
 module.exports = router;
