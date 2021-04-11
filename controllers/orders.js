@@ -1,4 +1,5 @@
 const orderSchema = require('../models/orders/orders');
+const userSchema = require('../models/customers/users');
 
 const orderValidator = require('../validators/orders.validators');
 
@@ -44,13 +45,19 @@ module.exports = {
         try {
             let userId = req.decoded._id;
             let { skip, limit } = await orderValidator.listOrders().validateAsync(req.body);
-            let orders = await orderSchema.find({_id: userId})
+            let orders = await orderSchema.find({userId})
             .skip(skip)
             .limit(limit)
             .lean();
+            let userName = await userSchema.findOne({
+                _id: userId
+            }).lean();
             return res.json({
                 code: 200,
-                data: orders,
+                data: {
+                    orders,
+                    name: userName.fname + userName.lname
+                },
                 message: "Orders list fetched",
                 error: null
             });
@@ -66,7 +73,7 @@ module.exports = {
             let orders = await orderSchema.find({
                 $and: [
                     {
-                        _id: userId
+                        userId
                     },
                     {
                         orderStatus: status
