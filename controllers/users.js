@@ -105,6 +105,10 @@ module.exports = {
             let userData = await usersSchema.findOne({
                 _id: userId
             }).lean();
+            const accessToken = await jwtService.generateAccessToken({
+                _id: userData._id,
+                name: userData.fname + userData.lname
+            });
             if (userData) {
                 return res.json({
                     code: 200,

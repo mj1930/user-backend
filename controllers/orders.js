@@ -56,7 +56,7 @@ module.exports = {
                 code: 200,
                 data: {
                     orders,
-                    name: userName.fname + userName.lname
+                    name: userName.fname + " " + userName.lname
                 },
                 message: "Orders list fetched",
                 error: null
