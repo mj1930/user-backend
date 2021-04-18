@@ -38,6 +38,7 @@ exports.searchProduct = () => {
 
 exports.filterProductsByPrice = () => {
     return Joi.object().keys({
+        categoryId: Joi.string().required().trim(),
         skip: Joi.number().required(),
         limit: Joi.number().required(),
         lowerPrice: Joi.number().required(),

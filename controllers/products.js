@@ -128,10 +128,11 @@ module.exports = {
 
     filterProductsByPrice: async (req, res, next) => {
         try {
-            let { skip, limit, lowerPrice, higherPrice } = await productValidator.filterProductsByPrice().validateAsync(req.body);
+            let { skip, limit, lowerPrice, higherPrice, categoryId } = await productValidator.filterProductsByPrice().validateAsync(req.body);
             let productsData = await productSchema.find({
                 $and : [
                     { isApproved: true },
+                    { categoryId},
                     {
                         mrp: {
                         $gte: lowerPrice,
