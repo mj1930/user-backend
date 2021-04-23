@@ -129,5 +129,47 @@ module.exports = {
         } catch (err) {
             next(err);
         }
+    },
+
+    updateUserData : async(req,res,next) =>{
+        const user = await usersSchema.findById(req.decoded._id)
+
+        if (user) {
+          user.fname = req.body.fname || user.fname
+          user.lname = req.body.lname || user.lname
+          user.email = req.body.email || user.email
+          if (req.body.password) {
+            user.password = req.body.password
+          }
+      
+          const updatedUser = await user.save()
+      
+          res.json({
+            _id: updatedUser._id,
+            fname: updatedUser.fname,
+            lname: updatedUser.lname,
+            email: updatedUser.email,
+            token:  await jwtService.generateAccessToken({
+                _id: updatedUser._id,
+                name: updatedUser.fname + updatedUser.lname
+            }),
+          })
+        } else {
+          res.status(404)
+          throw new Error('User not found')
+        }
+    }
+    ,
+    saveAddress: async (req, res) => {
+        console.log(req)
+      const user= await usersSchema.findById(req.decoded._id)
+        if(user){
+          user.address = req.body.address || user.address;
+        }
+        const userAddress = await user.save()
+      res.json({
+        ok: true,
+        data: userAddress,
+      });
     }
 }

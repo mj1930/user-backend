@@ -4,6 +4,7 @@ const orders = require('./orders');
 const cart = require('./carts');
 const category = require('./categories');
 const verification = require('./verification');
+const paytm = require('./paytm')
 
 const errorMiddleware = require('../middleware/error');
 
@@ -23,7 +24,8 @@ module.exports = app => {
             req.originalUrl.indexOf('/orders') > -1 ||
             req.originalUrl.indexOf('/carts') > -1 ||
             req.originalUrl.indexOf('/category') > -1 ||
-            req.originalUrl.indexOf('/verify') > -1
+            req.originalUrl.indexOf('/verify') > -1 ||
+            req.originalUrl.indexOf('/paytm') > -1
         ) {
             next()
         } else {
@@ -36,5 +38,6 @@ module.exports = app => {
     app.use('/carts', cart);
     app.use('/category', category);
     app.use('/verify', verification);
+    app.use('/paytm', paytm);
     app.use(errorMiddleware);
 }

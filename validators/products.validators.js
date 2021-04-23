@@ -48,7 +48,6 @@ exports.filterProductsByPrice = () => {
 
 exports.filterProductsByColor = () => {
     return Joi.object().keys({
-        categoryId: Joi.string().required().trim(),
         skip: Joi.number().required(),
         limit: Joi.number().required(),
         color: Joi.string().required().trim()

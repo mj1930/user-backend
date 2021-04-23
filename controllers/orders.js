@@ -1,6 +1,6 @@
 const orderSchema = require('../models/orders/orders');
 const userSchema = require('../models/customers/users');
-
+const productSchema= require('../models/products/products');
 const orderValidator = require('../validators/orders.validators');
 
 module.exports = {
@@ -20,16 +20,16 @@ module.exports = {
                 businessName,
                 paymentMode
             });
-            for (let i = 0; i < products.length;i++) {
-                let productData = products[i];
-                await productSchema.updateOne({
-                    _id: productData.productId
-                }, {
-                    $inc: {
-                        availableUnits : -productData.quantity
-                    }
-                });
-            }
+            // for (let i = 0; i < products.length;i++) {
+            //     let productData = products[i];
+            //     await productSchema.updateOne({
+            //         _id: productData.productId
+            //     }, {
+            //         $inc: {
+            //             availableUnits : -productData.quantity
+            //         }
+            //     });
+            // }
             return res.json({
                 code: 200,
                 data: orderData,
@@ -83,6 +83,26 @@ module.exports = {
             .skip(skip)
             .limit(limit)
             .lean();
+            return res.json({
+                code: 200,
+                data: orders,
+                message: "Orders list fetched",
+                error: null
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+
+
+
+
+    orderStatus: async (req, res, next) => {
+        try {
+            let userId = req.decoded._id;
+            
+            let orders = await orderSchema.findById(userId)
+            
             return res.json({
                 code: 200,
                 data: orders,

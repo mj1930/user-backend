@@ -29,7 +29,11 @@ const UserSchema = new Schema({
     isDeleted: {
         type: Boolean,
         default: false
-    }
+    },
+    address: {
+        type: Object,
+        default: {}
+    },
 }, { timestamps: true });
 
 const Users = mongoose.model('customers', UserSchema);
