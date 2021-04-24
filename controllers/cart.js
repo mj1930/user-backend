@@ -115,17 +115,9 @@ module.exports = {
                     error: null
                 });
             } else {
-                let cartData = await cartSchema.findOneAndUpdate({
-                    userId,
-                    "products.productId": productId
-                }, {
-                    $pull: {
-                        "products": { productId }
-                    },
-                    $set: {
-                        totalAmnt
-                    }
-                }, {new: true}).lean();
+                let cartData = await cartSchema.remove({
+                    userId
+                });
                 return res.json({
                     code: 200,
                     data: cartData,

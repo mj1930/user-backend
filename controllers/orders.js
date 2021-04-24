@@ -20,16 +20,16 @@ module.exports = {
                 businessName,
                 paymentMode
             });
-            // for (let i = 0; i < products.length;i++) {
-            //     let productData = products[i];
-            //     await productSchema.updateOne({
-            //         _id: productData.productId
-            //     }, {
-            //         $inc: {
-            //             availableUnits : -productData.quantity
-            //         }
-            //     });
-            // }
+            for (let i = 0; i < products.length;i++) {
+                let productData = products[i];
+                await productSchema.updateOne({
+                    _id: productData.productId
+                }, {
+                    $inc: {
+                        availableUnits : -parseInt(productData.quantity)
+                    }
+                });
+            }
             return res.json({
                 code: 200,
                 data: orderData,
