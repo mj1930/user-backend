@@ -50,7 +50,7 @@ exports.filterProductsByColor = () => {
     return Joi.object().keys({
         skip: Joi.number().required(),
         limit: Joi.number().required(),
-        color: Joi.string().required().trim()
+        color: Joi.array().required()
     })
 };
 

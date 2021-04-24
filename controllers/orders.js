@@ -109,5 +109,30 @@ module.exports = {
         } catch (err) {
             next(err);
         }
+    },
+
+    orderStatusFindOne: async (req, res, next) => {
+        try {
+            let userId = req.decoded._id;
+            let id = req.params.id;
+            let orders = await orderSchema.findOne({
+                $and: [
+                    {
+                        userId
+                    },
+                    {
+                        _id: id
+                    }
+                ]
+            })
+            return res.json({
+                code: 200,
+                data: orders,
+                message: "Orders list fetched",
+                error: null
+            });
+        } catch (err) {
+            next(err);
+        }
     }
 }

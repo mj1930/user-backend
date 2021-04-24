@@ -162,7 +162,7 @@ module.exports = {
                 $and : [
                     { isApproved: true },
                     {
-                        color: new Regex(color, 'i')
+                        color: { $in: color}
                     }
                 ]
             })
