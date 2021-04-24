@@ -53,14 +53,14 @@ module.exports = {
     signup: async (req, res, next) => {
         try {
             let {
-                lname, fname, email, password
+                lname, fname, email, password, mobile
             } = await userValidator.signup().validateAsync(req.body);
             let count = await usersSchema.countDocuments({
                 email
             });
             if (count) {
                 return res.json({
-                    code: 200,
+                    code: 400,
                     message: 'Email already exists !!',
                     data:{},
                     error: null
@@ -71,7 +71,8 @@ module.exports = {
                 lname,
                 fname,
                 email,
-                password
+                password,
+                "address.mobile": mobile
             });
             const userData = await data.save();
             const accessToken = await jwtService.generateAccessToken({

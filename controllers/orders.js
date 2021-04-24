@@ -94,9 +94,6 @@ module.exports = {
         }
     },
 
-
-
-
     orderStatus: async (req, res, next) => {
         try {
             let userId = req.decoded._id;
