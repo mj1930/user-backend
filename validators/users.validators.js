@@ -13,7 +13,7 @@ exports.signup = () => {
         lname: Joi.string().required().trim(),
         password: Joi.string().required().trim(),
         email: Joi.string().email().required().trim(),
-        mobile: Joi.string().email().required().trim()
+        mobile: Joi.string().length(10).required().trim()
     });
 };
 
