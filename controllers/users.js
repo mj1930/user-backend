@@ -53,7 +53,7 @@ module.exports = {
     signup: async (req, res, next) => {
         try {
             let {
-                lname, fname, email, password, mobile
+                lname, fname, email, password, phone
             } = await userValidator.signup().validateAsync(req.body);
             let count = await usersSchema.countDocuments({
                 email
@@ -72,7 +72,7 @@ module.exports = {
                 fname,
                 email,
                 password,
-                "address.mobile": mobile
+                "address.mobile": phone
             });
             const userData = await data.save();
             const accessToken = await jwtService.generateAccessToken({
