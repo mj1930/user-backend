@@ -63,8 +63,6 @@ router.post("/callback", async (req, res) => {
     /*  console.log(req); */
 
     let result = req.body;
-
-    console.log(result);
     //let userId = result.ORDERID.substr(0, result.ORDERID.indexOf("abcd"));
     let userId=req.query.userId;
     const payment = new paymentSchema({

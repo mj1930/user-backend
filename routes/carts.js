@@ -7,5 +7,6 @@ router.post('/list-cart', authorize, cartCtrl.listCart);
 router.post('/update-cart', authorize, cartCtrl.updateNewProductToCart);
 router.post('/remove-cart', authorize, cartCtrl.removeFromCart);
 router.post('/update-quantity', authorize, cartCtrl.updateQuantity);
+router.get('/remove-cart-order', authorize, cartCtrl.removeProductAfterOrder);
 
 module.exports = router;

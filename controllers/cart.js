@@ -100,7 +100,7 @@ module.exports = {
         try {
             let userId = req.decoded._id;
             let { productId, quantity, totalAmnt } = await cartValidator.removeFromCart().validateAsync(req.body);
-            if (quantity) {
+            // if (quantity) {
                 let cartData = await cartSchema.findOneAndUpdate({
                     userId,
                     "products.productId": productId
@@ -137,7 +137,24 @@ module.exports = {
                     message: "item removed from cart",
                     error: null
                 });
-            }
+            // }
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    removeProductAfterOrder: async (req, res, next) => {
+        try {
+            let userId = req.decoded._id;
+            await cartSchema.remove({
+                userId
+            });
+            return res.json({
+                code: 200,
+                data: {},
+                message: "item removed from cart",
+                error: null
+            });
         } catch (err) {
             next(err);
         }
