@@ -41,7 +41,7 @@ module.exports = {
                 return res.json({ 
                     code: 400,
                     data: {},
-                    messgae: "User not registered.", 
+                    message: "User not registered.", 
                     error: null 
                 });
             }
@@ -91,7 +91,7 @@ module.exports = {
                 return res.json({ 
                     code: 400,
                     data: {},
-                    messgae: "Something Error!! Not created successfully.", 
+                    message: "Something Error!! Not created successfully.", 
                     error: null 
                 });
             }
