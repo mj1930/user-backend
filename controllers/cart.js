@@ -57,8 +57,10 @@ module.exports = {
                 userId,
                 "products.productId": productId
             }, {
+                $inc: {
+                    "products.$.quantity":  1
+                },
                 $set: {
-                    "products.$.quantity": quantity,
                     totalAmnt
                 }
             }, {new: true}).lean();
@@ -102,22 +104,33 @@ module.exports = {
                 let cartData = await cartSchema.findOneAndUpdate({
                     userId,
                     "products.productId": productId
-                }, {
+                },
+                {
+                    $inc: {
+                        "products.$.quantity": -1
+                    },
                     $set: {
-                        "products.$.quantity": quantity,
                         totalAmnt
                     }
                 }, {new: true}).lean();
-                return res.json({
-                    code: 200,
-                    data: cartData,
-                    message: "item removed from cart",
-                    error: null
-                });
-            } else {
-                let cartData = await cartSchema.remove({
-                    userId
-                });
+                for (let i = 0 ; i < cartData.products.length;i++) {
+                    let product = cartData.products[i];
+                    if (!product.quantity) {
+                        cartData = await cartSchema.findOneAndUpdate({
+                            userId,
+                            "products.productId": productId
+                        }, {
+                            $pull: {
+                                "products": { productId }
+                            }
+                        }, {new: true}).lean()
+                    }
+                }
+                if (cartData.products.length == 0) {
+                    await cartSchema.remove({
+                        userId
+                    });
+                }
                 return res.json({
                     code: 200,
                     data: cartData,

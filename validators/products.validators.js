@@ -32,7 +32,7 @@ exports.findProductById = () => {
 
 exports.searchProduct = () => {
     return Joi.object().keys({
-        term: Joi.string().required().trim()
+        term: Joi.string().required().allow('').trim()
     });
 };
 

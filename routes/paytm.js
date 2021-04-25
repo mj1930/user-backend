@@ -73,7 +73,7 @@ router.post("/callback", async (req, res) => {
     });
     const createdPayment = await payment.save();
 
-    res.redirect(`http://localhost:4200/order-status/${createdPayment._id}`);
+    res.redirect(`${process.env.REDIRECT}order-status/${createdPayment._id}`);
 
     // return res.json({
     //   code: 201,
