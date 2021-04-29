@@ -103,7 +103,7 @@ params['INDUSTRY_TYPE_ID'] = 'Retail',
 params['ORDER_ID'] =  orderId,
 params['CUST_ID'] = userId,
 params['TXN_AMOUNT'] = amount,
-params['CALLBACK_URL'] = 'http://localhost:3001/paytm/callback?userId='+userId,
+params['CALLBACK_URL'] = `${process.env.REDIRECT_BACK}/paytm/callback?userId=${userId}`,
 params['EMAIL'] =email,
 params['MOBILE_NO'] = phone
 
