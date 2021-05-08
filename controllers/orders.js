@@ -139,14 +139,21 @@ module.exports = {
         try {
             let userId = req.decoded._id;
             let userName = req.decoded.name;
-            let { rating, feedback, productId } = await orderValidator.rateOrder().validateAsync(req.body);
-            let ratingData = await ratingSchema.create({
+            let { rating, feedback, productId, orderId } = await orderValidator.rateOrder().validateAsync(req.body);
+            await ratingSchema.create({
                 feedback,
                 productId,
                 customerId: userId,
                 name: userName,
                 rating
             });
+            let orderData = await orderSchema.findOneAndUpdate({
+                _id: orderId
+            }, {
+                $set: {
+                    isFeedBackGiven: true
+                }
+            }, { new: true}).lean();
             let totalRating = await ratingSchema.find({ productId }).lean();
             let prevRating = 0;
             prevRating += parseInt(rating)
@@ -163,7 +170,7 @@ module.exports = {
             });
             return res.send({
                 code: 200,
-                data: ratingData,
+                data: orderData,
                 message: "Feedback added successfully",
                 error: null
             });

@@ -30,6 +30,7 @@ exports.rateOrder = () => {
     return Joi.object().keys({
         rating:  Joi.string().required().trim(),
         feedback: Joi.string().required().trim(),
-        productId: Joi.string().required().trim()
+        productId: Joi.string().required().trim(),
+        orderId: Joi.string().required().trim()
     });
 };

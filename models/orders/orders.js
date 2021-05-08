@@ -70,6 +70,10 @@ const orderSchema = new Schema({
     orderStatus: {
         type: String,
         default: 'P' // P - pending, D-dispatched, RF- refunded, C- cancelled, RT- returned
+    },
+    isFeedBackGiven: {
+        type: Boolean,
+        default: false
     }
 }, {timestamps: true});
 
