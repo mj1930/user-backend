@@ -101,9 +101,16 @@ module.exports = {
         try {
             let { term } = await productValidator.searchProduct().validateAsync(req.query);
             let searchedProducts = await productSchema.find({
-                $or: [
-                    {itemName: { $regex: new RegExp(term, 'i') }},
-                    { barcode:  { $regex: new RegExp(term, 'i') }}
+                $and: [
+                    {
+                        isApproved: true
+                    },
+                    {
+                        $or: [
+                            {itemName: { $regex: new RegExp(term, 'i') }},
+                            { barcode:  { $regex: new RegExp(term, 'i') }}
+                        ]
+                    }
                 ]
             }).lean();
             if (searchedProducts && searchedProducts.length > 0) {
