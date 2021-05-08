@@ -20,7 +20,7 @@ module.exports = {
                 if(password === userPassword) {
                     const accessToken = await jwtService.generateAccessToken({
                         _id: data._id,
-                        name: data.fname + data.lname,
+                        name: data.fname + " " + data.lname,
                         email: data.email
                     });
                     return res.json({

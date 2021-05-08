@@ -147,13 +147,13 @@ module.exports = {
                 name: userName,
                 rating
             });
-            let totalRating = await ratingSchema.find({ productId });
+            let totalRating = await ratingSchema.find({ productId }).lean();
             let prevRating = 0;
-            prevRating += rating
+            prevRating += parseInt(rating)
             totalRating.forEach(item => {
                 prevRating += item.rating;
             });
-            prevRating = parseFloat(rating / totalRating.length);
+            prevRating = parseInt(rating / totalRating.length);
             await productSchema.updateOne({
                 _id: productId,
             }, {
