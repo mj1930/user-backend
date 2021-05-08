@@ -75,16 +75,11 @@ module.exports = {
                 "address.mobile": phone
             });
             const userData = await data.save();
-            const accessToken = await jwtService.generateAccessToken({
-                _id: userData._id,
-                name: userData.fname + userData.lname
-            });
             if (userData) {
                 return res.json({
                     code: 200,
                     message: 'Registration Completed!!',
                     data: userData,
-                    accessToken,
                     error: null
                 });
             } else {

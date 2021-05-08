@@ -132,7 +132,7 @@ module.exports = {
             let productsData = await productSchema.find({
                 $and : [
                     { isApproved: true },
-                    { categoryId},
+                    { categoryId },
                     {
                         mrp: {
                         $gte: lowerPrice,
@@ -157,10 +157,11 @@ module.exports = {
 
     filterProductsByColors : async (req, res, next) => {
         try {
-            let { skip, limit, color } = await productValidator.filterProductsByColor().validateAsync(req.body);
+            let { skip, limit, color, categoryId } = await productValidator.filterProductsByColor().validateAsync(req.body);
             let productsData = await productSchema.find({
                 $and : [
                     { isApproved: true },
+                    { categoryId },
                     {
                         color: { $in: color}
                     }
@@ -173,6 +174,36 @@ module.exports = {
                 code: 200,
                 data: productsData,
                 message: "filtered by color",
+                error: null
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    filterProductsByRating : async (req, res, next) => {
+        try {
+            let { skip, limit, rating, categoryId } = await productValidator.filterProductsByRating().validateAsync(req.body);
+            let productsData = await productSchema.find({
+                $and : [
+                    { 
+                        isApproved: true 
+                    },
+                    { categoryId },
+                    {
+                        rating: {
+                            $gte: rating
+                        }
+                    }
+                ]
+            })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+            return res.json({
+                code: 200,
+                data: productsData,
+                message: "filtered by rating",
                 error: null
             });
         } catch (err) {

@@ -61,20 +61,24 @@ const productSchema = new Schema({
         default: ""
     },
     productPrice: {
-        type: String,
-        default: ""
+        type: Number,
+        default: 0
     },
     availableUnits: {
         type: Number,
-        default: ""
+        default: 0
+    },
+    rating: {
+        type: Number,
+        default: 0
     },
     unitCount: {
         type: Number,
-        default: ""
+        default: 0
     },
     mrp: {
-        type: String,
-        default: ""
+        type: Number,
+        default: 0
     },
     description: {
         type: String,

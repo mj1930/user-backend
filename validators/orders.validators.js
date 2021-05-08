@@ -25,3 +25,11 @@ exports.filterOrders = () => {
         status: Joi.string().required().trim()
     });
 };
+
+exports.rateOrder = () => {
+    return Joi.object().keys({
+        rating:  Joi.string().required().trim(),
+        feedback: Joi.string().required().trim(),
+        productId: Joi.string().required().trim()
+    });
+};

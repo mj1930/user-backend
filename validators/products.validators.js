@@ -50,7 +50,17 @@ exports.filterProductsByColor = () => {
     return Joi.object().keys({
         skip: Joi.number().required(),
         limit: Joi.number().required(),
-        color: Joi.array().required()
+        color: Joi.array().required(),
+        categoryId: Joi.string().required().trim()
+    })
+};
+
+exports.filterProductsByRating = () => {
+    return Joi.object().keys({
+        skip: Joi.number().required(),
+        limit: Joi.number().required(),
+        categoryId: Joi.string().required().trim(),
+        rating: Joi.number().required()
     })
 };
 
