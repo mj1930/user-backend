@@ -239,5 +239,28 @@ module.exports = {
         } catch (err) {
             next(err);
         }
+    },
+
+    getRelatedProducts: async (req, res, next) => {
+        try {
+            let itemName = req.body.name;
+            let getrelatedProducts = await productSchema.find({
+                $and: [
+                    { isApproved: true},
+                    { itemName: new RegExp(itemName, 'i') }
+                ]
+            })
+            .skip(0)
+            .limit(10)
+            .lean();
+            return res.send({
+                code: 200,
+                data: getrelatedProducts,
+                message: "",
+                error: null
+            });
+        } catch (err) {
+            next(err);
+        }
     }
 }

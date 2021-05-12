@@ -10,5 +10,6 @@ router.post('/get-products-by-rating', productCtrl.filterProductsByRating);
 router.get('/get-product-by-id', productCtrl.findProductById);
 router.get('/search-products', productCtrl.searchFromProducts);
 router.post('/sort-products', productCtrl.sortProduct);
+router.post('/get-related-products', productCtrl.getRelatedProducts);
 
 module.exports = router;
