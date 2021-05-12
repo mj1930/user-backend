@@ -26,6 +26,10 @@ const cartSchema = new Schema({
                     type: String,
                     default: ""
                 },
+                mrp: {
+                    type: String,
+                    default: ""
+                },
                 sellerId: {
                     type: Schema.Types.ObjectId,
                     ref: 'sellers',
