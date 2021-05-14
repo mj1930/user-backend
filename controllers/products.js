@@ -276,11 +276,30 @@ module.exports = {
             let products = await productSchema.find({
                 isApproved: true
             }).sort({ updatedBy : -1})
-            .limit(5)
+            .limit(3)
             .lean();
             return res.json({
                 code: 200,
                 data: products,
+                message: "",
+                error: null
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    getProductCity: async(req, res, next) => {
+        try {
+            let productIds = JSON.parse(req.body.ids);
+            let citiesData = await productSchema.find({
+                _id: {
+                    $in: [productIds]
+                }
+            }, { city :1}).lean();
+            return res.json({
+                code:200,
+                data: citiesData,
                 message: "",
                 error: null
             });
