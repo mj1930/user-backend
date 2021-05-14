@@ -262,5 +262,23 @@ module.exports = {
         } catch (err) {
             next(err);
         }
+    },
+
+    getHomePageData: async (req, res, next) => {
+        try {
+            let products = await productSchema.find({
+                isApproved: true
+            }).sort({ updatedBy : -1})
+            .limit(5)
+            .lean();
+            return res.json({
+                code: 200,
+                data: products,
+                message: "",
+                error: null
+            });
+        } catch (err) {
+            next(err);
+        }
     }
 }
