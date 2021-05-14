@@ -10,6 +10,7 @@ module.exports = {
                 isDeleted: false,
                 isApproved: true
             })
+            .sort({ updatedBy : -1})
             .skip(skip)
             .limit(limit)
             .lean();
@@ -38,6 +39,7 @@ module.exports = {
                     }
                 ]
             })
+            .sort({ updatedBy : -1})
             .skip(skip)
             .limit(limit)
             .lean();
@@ -66,6 +68,7 @@ module.exports = {
                     }
                 ]
             })
+            .sort({ updatedBy : -1})
             .skip(skip)
             .limit(limit)
             .lean();
@@ -112,7 +115,7 @@ module.exports = {
                         ]
                     }
                 ]
-            }).lean();
+            }).sort({ updatedBy : -1}).lean();
             if (searchedProducts && searchedProducts.length > 0) {
                 return res.json({
                     code: 200,
@@ -148,6 +151,7 @@ module.exports = {
                     }
                 ]
             })
+            .sort({ updatedBy : -1})
             .skip(skip)
             .limit(limit)
             .lean();
@@ -174,6 +178,7 @@ module.exports = {
                     }
                 ]
             })
+            .sort({ updatedBy : -1})
             .skip(skip)
             .limit(limit)
             .lean();
@@ -204,6 +209,7 @@ module.exports = {
                     }
                 ]
             })
+            .sort({ updatedBy : -1})
             .skip(skip)
             .limit(limit)
             .lean();
@@ -250,6 +256,7 @@ module.exports = {
                     { itemName: new RegExp(itemName, 'i') }
                 ]
             })
+            .sort({ updatedBy : -1})
             .skip(0)
             .limit(10)
             .lean();
