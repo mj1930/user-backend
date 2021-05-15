@@ -16,15 +16,14 @@ module.exports = {
                 let data = await usersSchema.findOne({
                     $and: [
                         { email },
-                        { isDeleted: true }
+                        { isDeleted: false }
                     ]
                 }).lean();
                 if (!data) {
                     return res.json({
-                        code: 200,
+                        code: 400,
                         data: {},
-                        message: "Contact your administrator",
-                        accessToken
+                        message: "Contact your administrator"
                     });
                 }
                 let userPassword = await crypto.staticDecrypter(data.password);
