@@ -14,8 +14,19 @@ module.exports = {
             });
             if (count) {
                 let data = await usersSchema.findOne({
-                    email
+                    $and: [
+                        { email },
+                        { isDeleted: true }
+                    ]
                 }).lean();
+                if (!data) {
+                    return res.json({
+                        code: 200,
+                        data: {},
+                        message: "Contact your administrator",
+                        accessToken
+                    });
+                }
                 let userPassword = await crypto.staticDecrypter(data.password);
                 if(password === userPassword) {
                     const accessToken = await jwtService.generateAccessToken({

@@ -110,7 +110,7 @@ module.exports = {
                     },
                     {
                         $or: [
-                            {itemName: { $regex: new RegExp(term, 'i') }},
+                            { itemName: { $regex: new RegExp(term, 'i') }},
                             { barcode:  { $regex: new RegExp(term, 'i') }}
                         ]
                     }
