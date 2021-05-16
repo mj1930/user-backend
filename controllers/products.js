@@ -7,8 +7,15 @@ module.exports = {
         try {
             let { skip, limit } = await productValidator.listAllProduct().validateAsync(req.body);
             let allProducts = await productSchema.find({
-                isDeleted: false,
-                isApproved: true
+                $and: [
+                    {isDeleted: false},
+                    { isApproved: true },
+                    {
+                        availableUnits: {
+                            $gte: 1
+                        }
+                    }
+                ]
             })
             .sort({ updatedBy : -1})
             .skip(skip)
@@ -36,6 +43,11 @@ module.exports = {
                     {
                         isDeleted: false,
                         isApproved: true
+                    },
+                    {
+                        availableUnits: {
+                            $gte: 1
+                        }
                     }
                 ]
             })
@@ -65,6 +77,11 @@ module.exports = {
                     {
                         isDeleted: false,
                         isApproved: true
+                    },
+                    {
+                        availableUnits: {
+                            $gte: 1
+                        }
                     }
                 ]
             })
@@ -87,7 +104,14 @@ module.exports = {
         try {
             let { productId } = await productValidator.findProductById().validateAsync(req.query);
             let productData = await productSchema.findOne({
-                _id: productId
+                $and: [
+                    {_id: productId},
+                    {
+                        availableUnits: {
+                            $gte: 1
+                        }
+                    }
+                ]
             }).lean();
             return res.json({
                 code: 200,
@@ -113,6 +137,11 @@ module.exports = {
                             { itemName: { $regex: new RegExp(term, 'i') }},
                             { barcode:  { $regex: new RegExp(term, 'i') }}
                         ]
+                    },
+                    {
+                        availableUnits: {
+                            $gte: 1
+                        }
                     }
                 ]
             }).sort({ updatedBy : -1}).lean();
@@ -148,6 +177,11 @@ module.exports = {
                         $gte: lowerPrice,
                         $lte: higherPrice
                         }
+                    },
+                    {
+                        availableUnits: {
+                            $gte: 1
+                        }
                     }
                 ]
             })
@@ -175,6 +209,11 @@ module.exports = {
                     { categoryId },
                     {
                         color: { $in: color}
+                    },
+                    {
+                        availableUnits: {
+                            $gte: 1
+                        }
                     }
                 ]
             })
@@ -206,6 +245,11 @@ module.exports = {
                         rating: {
                             $gte: rating
                         }
+                    },
+                    {
+                        availableUnits: {
+                            $gte: 1
+                        }
                     }
                 ]
             })
@@ -230,7 +274,14 @@ module.exports = {
             let query = {};
             query[key] = sortBy;
             let products = await productSchema.find({
-                isApproved: true
+                $and: [
+                    { isApproved: true },
+                    {
+                        availableUnits: {
+                            $gte: 1
+                        }
+                    }
+                ]
             })
             .sort(query)
             .skip(skip)
@@ -253,7 +304,12 @@ module.exports = {
             let getrelatedProducts = await productSchema.find({
                 $and: [
                     { isApproved: true},
-                    { itemName: new RegExp(itemName, 'i') }
+                    { itemName: new RegExp(itemName, 'i') },
+                    {
+                        availableUnits: {
+                            $gte: 1
+                        }
+                    }
                 ]
             })
             .sort({ updatedBy : -1})
@@ -274,7 +330,14 @@ module.exports = {
     getHomePageData: async (req, res, next) => {
         try {
             let products = await productSchema.find({
-                isApproved: true
+                $and: [
+                    { isApproved: true },
+                    {
+                        availableUnits: {
+                            $gte: 1
+                        }
+                    }
+                ]
             }).sort({ updatedBy : -1})
             .limit(3)
             .lean();
