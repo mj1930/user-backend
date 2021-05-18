@@ -300,11 +300,13 @@ module.exports = {
 
     getRelatedProducts: async (req, res, next) => {
         try {
-            let itemName = req.body.name;
+            let categoryId = req.body.categoryId;
+            let subcategoryId = req.body.subcategoryId;
             let getrelatedProducts = await productSchema.find({
                 $and: [
                     { isApproved: true},
-                    { itemName: new RegExp(itemName, 'i') },
+                    { categoryId },
+                    { subcategoryId },
                     {
                         availableUnits: {
                             $gte: 1
