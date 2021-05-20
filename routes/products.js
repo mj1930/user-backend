@@ -11,6 +11,7 @@ router.get('/get-product-by-id', productCtrl.findProductById);
 router.get('/search-products', productCtrl.searchFromProducts);
 router.post('/sort-products', productCtrl.sortProduct);
 router.post('/get-related-products', productCtrl.getRelatedProducts);
+router.post('/get-vin-products', productCtrl.getProductsByVin);
 router.get('/get-home-products', productCtrl.getHomePageData);
 router.post('/get-products', productCtrl.getProductCity);
 

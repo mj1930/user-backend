@@ -329,6 +329,36 @@ module.exports = {
         }
     },
 
+    getProductsByVin: async (req, res, next) => {
+        try {
+            let { vin } = req.body;
+            let vinProducts = []
+            if (vin) {
+                vinProducts = await productSchema.find({
+                    $and: [
+                        { isApproved: true },
+                        { vin }
+                    ]
+                }).lean();
+            } else {
+                return res.json({
+                    code: 400,
+                    data: vinProducts,
+                    message: "",
+                    error: null
+                });   
+            }
+            return res.json({
+                code: 200,
+                data: vinProducts,
+                message: "",
+                error: null
+            });
+        } catch (next) {
+            next(err);
+        }
+    },
+
     getHomePageData: async (req, res, next) => {
         try {
             let products = await productSchema.find({
