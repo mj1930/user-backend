@@ -1,8 +1,11 @@
 const orderSchema = require('../models/orders/orders');
 const userSchema = require('../models/customers/users');
+const sellerSchema = require('../models/users/users');
 const productSchema = require('../models/products/products');
 const ratingSchema = require('../models/products/rating');
 const orderValidator = require('../validators/orders.validators');
+const _ = require('underscore');
+const crypto = require('../utils/crypto/Crypto');
 
 module.exports = {
 
@@ -123,7 +126,7 @@ module.exports = {
                         _id: id
                     }
                 ]
-            })
+            });
             return res.json({
                 code: 200,
                 data: orders,
@@ -172,6 +175,46 @@ module.exports = {
                 code: 200,
                 data: orderData,
                 message: "Feedback added successfully",
+                error: null
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
+
+    printInvoice: async (req, res, next) => {
+        try {
+            let userId = req.decoded._id;
+            let id = req.params.id;
+            let orders = await orderSchema.findOne({
+                $and: [
+                    {
+                        userId
+                    },
+                    {
+                        _id: id
+                    }
+                ]
+            }).lean();
+            let sellerIds = orders?.products?.length ? _.map(orders.products, 'sellerId') : [];
+            let sellerData = await sellerSchema.find({
+                _id : { $in : sellerIds }
+            }, { address: 1, name: 1, gstin: 1, pan: 1}).lean();
+            for (let i = 0; i < sellerData.length;i++) {
+                let pan = sellerData[i].pan ? await crypto.staticDecrypter(sellerData[i].pan) : '';
+                let gstin = sellerData[i].gstin ? await crypto.staticDecrypter(sellerData[i].gstin) : '';
+                sellerData[i]['pan'] = pan;
+                sellerData[i]['gstin'] = gstin;
+            }
+            orders['sellerDetails'] = sellerData;
+            let userData = await userSchema.findOne({
+                _id: userId
+            }, { address : 1}).lean();
+            orders['userDetails'] = userData;
+            return res.json({
+                code: 200,
+                data: orders,
+                message: "",
                 error: null
             });
         } catch (err) {

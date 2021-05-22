@@ -7,6 +7,7 @@ router.post('/list-orders', authorize, orderCtrl.listOrders);
 router.post('/filter-orders', authorize, orderCtrl.filterProducts);
 router.get('/get-orders', authorize, orderCtrl.orderStatus);
 router.get('/get-order/:id', authorize, orderCtrl.orderStatusFindOne);
+router.get('/print-invoice/:id', authorize, orderCtrl.printInvoice);
 router.post('/rate-product', authorize, orderCtrl.addRatingAndFeedback);
 
 module.exports = router;
