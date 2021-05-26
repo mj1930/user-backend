@@ -301,12 +301,16 @@ module.exports = {
     getRelatedProducts: async (req, res, next) => {
         try {
             let categoryId = req.body.categoryId;
-            let subcategoryId = req.body.subcategoryId;
+            let itemName = req.body.itemName;
             let getrelatedProducts = await productSchema.find({
                 $and: [
                     { isApproved: true},
-                    { categoryId },
-                    { subcategoryId },
+                    { 
+                        $or: [
+                            { categoryId },
+                            { itemName },
+                        ]
+                    },
                     {
                         availableUnits: {
                             $gte: 1
