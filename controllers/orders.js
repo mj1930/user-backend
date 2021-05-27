@@ -26,11 +26,14 @@ module.exports = {
             });
             for (let i = 0; i < products.length;i++) {
                 let productData = products[i];
-                await productSchema.updateOne({
+                await productSchema.findOneAndUpdate({
                     _id: productData.productId
                 }, {
                     $inc: {
                         availableUnits : -parseInt(productData.quantity)
+                    },
+                    $set: {
+                        soldUnit: parseInt(productData.quantity)
                     }
                 });
             }
