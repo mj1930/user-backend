@@ -32,7 +32,7 @@ module.exports = {
                     $inc: {
                         availableUnits : -parseInt(productData.quantity)
                     },
-                    $set: {
+                    $inc: {
                         soldUnit: parseInt(productData.quantity)
                     }
                 });
@@ -53,6 +53,7 @@ module.exports = {
             let userId = req.decoded._id;
             let { skip, limit } = await orderValidator.listOrders().validateAsync(req.body);
             let orders = await orderSchema.find({userId})
+            .sort({ createdAt: -1})
             .skip(skip)
             .limit(limit)
             .lean();
