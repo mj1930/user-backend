@@ -10,4 +10,6 @@ router.get('/get-order/:id', authorize, orderCtrl.orderStatusFindOne);
 router.get('/print-invoice/:id', authorize, orderCtrl.printInvoice);
 router.post('/rate-product', authorize, orderCtrl.addRatingAndFeedback);
 
+//order history line 6.
+router.post('/vkreta/wp-json/wc/v2/orders', authorize, orderCtrl.listOrders);
 module.exports = router;
