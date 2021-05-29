@@ -15,4 +15,10 @@ router.post('/get-vin-products', productCtrl.getProductsByVin);
 router.get('/get-home-products', productCtrl.getHomePageData);
 router.post('/get-products', productCtrl.getProductCity);
 
+
+// categories,line no.5 ,
+// Mobile Routes
+//demo by mihir jain
+router.post('/vkreta/wp-json/wc/v3/products', productCtrl.listAllProduct);
+router.post('/vkreta/wp-json/wc/v2/products/categories', productCtrl.findProductByCategory);
 module.exports = router;
