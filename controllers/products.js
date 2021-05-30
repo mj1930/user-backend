@@ -1,5 +1,6 @@
 const productSchema = require('../models/products/products');
 const productValidator = require('../validators/products.validators');
+const _ = require('underscore');
 
 module.exports = {
 
@@ -146,6 +147,7 @@ module.exports = {
                 ]
             }).sort({ updatedBy : -1}).lean();
             if (searchedProducts && searchedProducts.length > 0) {
+                searchedProducts = _.uniq(searchedProducts, x => x.vin);
                 return res.json({
                     code: 200,
                     data: searchedProducts,
