@@ -111,16 +111,11 @@ module.exports = {
             let userData = await usersSchema.findOne({
                 _id: userId
             }).lean();
-            const accessToken = await jwtService.generateAccessToken({
-                _id: userData._id,
-                name: userData.fname + userData.lname
-            });
             if (userData) {
                 return res.json({
                     code: 200,
                     message: 'User profile data found !!',
                     data: userData,
-                    accessToken,
                     error: null
                 });
             } else {
@@ -128,7 +123,6 @@ module.exports = {
                     code: 400,
                     message: 'No user found !!',
                     data: {},
-                    accessToken,
                     error: null
                 });
             }
@@ -154,11 +148,7 @@ module.exports = {
             _id: updatedUser._id,
             fname: updatedUser.fname,
             lname: updatedUser.lname,
-            email: updatedUser.email,
-            token:  await jwtService.generateAccessToken({
-                _id: updatedUser._id,
-                name: updatedUser.fname + updatedUser.lname
-            }),
+            email: updatedUser.email
           })
         } else {
           res.status(404)

@@ -21,6 +21,7 @@ module.exports = app => {
     app.use((req, res, next) => {
         if (
             req.originalUrl.indexOf('/users') > -1 ||
+            req.originalUrl.indexOf('/vkreta') > -1 ||
             req.originalUrl.indexOf('/products') > -1 ||
             req.originalUrl.indexOf('/orders') > -1 ||
             req.originalUrl.indexOf('/carts') > -1 ||
@@ -42,5 +43,9 @@ module.exports = app => {
     app.use('/verify', verification);
     app.use('/paytm', paytm);
     app.use('/rating', rating);
+    //Mobile use
+    app.use('/', product);
+    app.use('/', users);
+    app.use('/', orders);
     app.use(errorMiddleware);
 }

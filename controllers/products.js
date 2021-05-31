@@ -9,7 +9,7 @@ module.exports = {
             let { skip, limit } = await productValidator.listAllProduct().validateAsync(req.body);
             let allProducts = await productSchema.find({
                 $and: [
-                    {isDeleted: false},
+                    { isDeleted: false },
                     { isApproved: true },
                     {
                         availableUnits: {
