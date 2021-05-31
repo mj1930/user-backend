@@ -22,6 +22,7 @@ module.exports = {
             .skip(skip)
             .limit(limit)
             .lean();
+            allProducts = _.uniq(allProducts, x => x.vin);
             return res.json({
                 code: 200,
                 data: allProducts,
@@ -56,6 +57,7 @@ module.exports = {
             .skip(skip)
             .limit(limit)
             .lean();
+            allProducts = _.uniq(allProducts, x => x.vin);
             return res.json({
                 code: 200,
                 data: allProducts,
